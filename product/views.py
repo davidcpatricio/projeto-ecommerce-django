@@ -15,9 +15,11 @@ class ProductList(ListView):
     paginate_by = 10
 
 
-class ProductDetails(View):
-    def get(self, *args, **kwargs):
-        return HttpResponse('Product details')
+class ProductDetails(DetailView):
+    model = models.Product
+    template_name = 'product/details.html'
+    context_object_name = 'product'
+    slug_url_kwarg = 'slug'
 
 
 class AddToCart(View):
