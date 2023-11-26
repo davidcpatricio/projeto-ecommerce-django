@@ -20,11 +20,11 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
+    # TODO: Remover debug toolbar
+    path("__debug__/", include("debug_toolbar.urls")),
+
     path('', include('product.urls')),
     path('profile/', include('profiles.urls')),
     path('order/', include('order.urls')),
     path('admin/', admin.site.urls),
-
-    # TODO: Remover debug toolbar
-    path("__debug__/", include("debug_toolbar.urls")),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

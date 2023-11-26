@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'product'
 
-url_patterns = [
+urlpatterns = [
     path('', views.ProductList.as_view(), name='product_list'),
     path('<slug>', views.ProductDetails.as_view(), name='details'),
     path('add_to_cart/', views.AddToCart.as_view(), name='add_to_cart'),

@@ -8,9 +8,11 @@ from django.views.generic.list import ListView
 from . import models
 
 
-class ProductList(View):
-    def get(self, *args, **kwargs):
-        return HttpResponse('Product list')
+class ProductList(ListView):
+    model = models.Product
+    template_name = 'product/product_list.html'
+    context_object_name = 'products'
+    paginate_by = 10
 
 
 class ProductDetails(View):
