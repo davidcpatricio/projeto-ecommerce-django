@@ -3,14 +3,14 @@ def format_price(val):
 
 
 def cart_total_amount(cart):
-    return sum([item['amout'] for item in cart.values()])
+    return sum([item['amount'] for item in cart.values()])
 
 
-def cart_totals(cart):
+def cart_total_price(cart):
     return sum(
         [
-            item.get('promo_total_price')
-            if item.get('promo_total_price')
+            item.get('total_promo_price')
+            if item.get('total_promo_price')
             else item.get('total_price')
             for item
             in cart.values()

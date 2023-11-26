@@ -6,6 +6,6 @@ app_name = 'order'
 
 urlpatterns = [
     path('', views.Pay.as_view(), name='pay'),
-    path('close_order/', views.CloseOrder.as_view(), name='close_order'),
+    path('save_order/', views.SaveOrder.as_view(), name='save_order'),
     path('details/', views.Details.as_view(), name='details'),
 ]
