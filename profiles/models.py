@@ -29,9 +29,9 @@ class Profile(models.Model):
         if not validate_nif(self.nif):
             error_messages['nif'] = 'Enter a valid NIF.'
 
-        if re.search(r'^\d{4}-\d{3}?$', self.postal_code) or \
+        if re.search(r'^\\d{4}[- ]{0,1}\\d{3}$', self.postal_code) or \
                 len(self.postal_code) != 8:
-            error_messages['nif'] = 'Invalid postal code.'
+            error_messages['postal_code'] = 'Invalid postal code.'
 
         if error_messages:
             raise ValidationError(error_messages)
