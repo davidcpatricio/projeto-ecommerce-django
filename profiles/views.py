@@ -113,14 +113,52 @@ class Profile(ProfileBase):
         self.request.session['cart'] = self.cart
         self.request.session.save()
 
-        return self.rendering
+        messages.success(
+            self.request,
+            'Succesfully registered / updated!'
+        )
+
+        return redirect('product:cart')
 
 
 class Login(View):
-    def get(self, *args, **kwargs):
-        return HttpResponse('Login')
+    def post(self, *args, **kwargs):
+        username = self.request.POST.get('username')
+        password = self.request.POST.get('password')
+
+        if not username or not password:
+            messages.error(
+                self.request,
+                'Username and/or password must not be empty.'
+            )
+            return redirect('profiles:profile')
+
+        site_user = authenticate(
+            self.request, username=username, password=password)
+
+        if not site_user:
+            messages.error(
+                self.request,
+                'Invalid username and/or password.'
+            )
+            return redirect('profiles:profile')
+
+        login(self.request, user=site_user)
+
+        messages.success(
+            self.request,
+            'Successfully logged in!'
+        )
+        return redirect('product:cart')
 
 
 class Logout(View):
     def get(self, *args, **kwargs):
-        return HttpResponse('Logout')
+        cart = copy.deepcopy(self.request.session.get('cart'))
+
+        logout(self.request)
+
+        self.request.session['cart'] = cart
+        self.request.session.save()
+
+        return redirect('product:product_list')
