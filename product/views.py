@@ -5,6 +5,8 @@ from django.views import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
+from profiles.models import Profile
+
 from . import models
 
 
@@ -66,7 +68,7 @@ class AddToCart(View):
         cart = self.request.session['cart']
 
         if variation_id in cart:
-            # TODO : Variation exists in cart
+            # Variation exists in cart
             amount_cart = cart[variation_id]['amount']
             amount_cart += 1
 
@@ -85,7 +87,7 @@ class AddToCart(View):
             cart[variation_id]['total_promo_price'] = unit_promo_price * \
                 amount_cart
         else:
-            # TODO : Variation does not exist in cart
+            # Variation does not exist in cart
             cart[variation_id] = {
                 'product_id': product_id,
                 'product_name': product_name,
@@ -154,6 +156,24 @@ class OrderSummary(View):
     def get(self, *args, **kwargs):
         if not self.request.user.is_authenticated:
             return redirect('profiles:profile')
+
+        site_profile = Profile.objects.filter(
+            site_user=self.request.user
+        ).exists()
+
+        if not site_profile:
+            messages.error(
+                self.request,
+                'No profile set for this user.'
+            )
+            return redirect('profiles:profile')
+
+        if not self.request.session.get('carrinho'):
+            messages.error(
+                self.request,
+                'Your cart is empty.'
+            )
+            return redirect('product:product_list')
 
         context = {
             'site_user': self.request.user,
