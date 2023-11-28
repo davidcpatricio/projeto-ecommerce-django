@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load filters %}
+
+{% block content %}
+
+<div class="row mb-5">
+    <div class="col-lg">
+        <h2>Order summary</h2>
+
+        <p class="lead">User info</p>
+        <p>If you want to change your data, <a href="{% url 'profiles:profile' %}">click here.</a></p>
+        <dl class="row">
+            <dt class="col-lg-2">First name:</dt>
+            <dd class="col-lg-4">{{ site_user.first_name }}</dd>
+            <dt class="col-lg-2">Last name:</dt>
+            <dd class="col-lg-4">{{ site_user.last_name }}</dd>
+
+            <dt class="col-lg-2">Date of birth:</dt>
+            <dd class="col-lg-4">{{ site_user.profile.date_of_birth }}</dd>
+
+            <dt class="col-lg-2">NIF:</dt>
+            <dd class="col-lg-4">{{ site_user.profile.nif }}</dd>
+            <dt class="col-lg-2">E-mail:</dt>
+            <dd class="col-lg-4">{{ site_user.email }}</dd>
+        </dl>
+
+        <p class="lead">Address info</p>
+        <p>If you want to change your data, <a href="{% url 'profiles:profile' %}">click here.</a></p>
+        <dl class="row">
+            <dt class="col-lg-2">Address:</dt>
+            <dd class="col-lg-4">{{ site_user.profile.address }}</dd>
+            <dt class="col-lg-2">Door:</dt>
+            <dd class="col-lg-4">{{ site_user.profile.number }}</dd>
+
+            <dt class="col-lg-2">Complement:</dt>
+            <dd class="col-lg-4">{{ site_user.profile.complement }}</dd>
+            <dt class="col-lg-2">Neighborhood:</dt>
+            <dd class="col-lg-4">{{ site_user.profile.neighborhood }}</dd>
+
+            <dt class="col-lg-2">City:</dt>
+            <dd class="col-lg-4">{{ site_user.profile.city }}</dd>
+
+            <dt class="col-lg-2">Postal code:</dt>
+            <dd class="col-lg-4">{{ site_user.profile.postal_code }}</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col">
+        <h3>Shopping cart</h3>
+        {% include "partials/_cart.html" %}
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col">
+        <p class="lead text-center">
+            <span class="font-weight-bold">Total:</span> 
+            {{ cart|cart_total_price|format_price }}
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <a class="btn btn-block btn-primary btn-lg" href="{% url 'order:pay' %}">
+            Proceed with payment
+        </a>
+    </div>
+</div>
+
+{% endblock content %}

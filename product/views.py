@@ -152,4 +152,12 @@ class Cart(View):
 
 class OrderSummary(View):
     def get(self, *args, **kwargs):
-        return HttpResponse('Order summary')
+        if not self.request.user.is_authenticated:
+            return redirect('profiles:profile')
+
+        context = {
+            'site_user': self.request.user,
+            'cart': self.request.session['cart'],
+        }
+
+        return render(self.request, 'product/order_summary.html', context)

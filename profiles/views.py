@@ -58,6 +58,12 @@ class ProfileBase(View):
 class Profile(ProfileBase):
     def post(self, *args, **kwargs):
         if not self.userform.is_valid() or not self.profileform.is_valid():
+            messages.error(
+                self.request,
+                'There are errors in the register form. Please check if '
+                'all fields were filled in correctly.'
+            )
+
             return self.rendering
 
         username = self.userform.cleaned_data.get('username')
@@ -149,7 +155,7 @@ class Login(View):
             self.request,
             'Successfully logged in!'
         )
-        return redirect('product:cart')
+        return redirect('product:product_list')
 
 
 class Logout(View):
