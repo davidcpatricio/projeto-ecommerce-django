@@ -168,7 +168,7 @@ class OrderSummary(View):
             )
             return redirect('profiles:profile')
 
-        if not self.request.session.get('carrinho'):
+        if not self.request.session.get('cart'):
             messages.error(
                 self.request,
                 'Your cart is empty.'

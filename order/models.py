@@ -4,7 +4,8 @@ from django.db import models
 
 class Order(models.Model):
     site_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    total = models.FloatField()
+    total_value = models.FloatField()
+    total_amount = models.PositiveIntegerField()
     status = models.CharField(
         default="C",
         max_length=1,
