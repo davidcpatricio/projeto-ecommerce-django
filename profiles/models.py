@@ -26,11 +26,20 @@ class Profile(models.Model):
     def clean(self):
         error_messages = {}
 
+        sent_nif = self.nif or None
+        saved_nif = None
+        site_profile = Profile.objects.filter(nif=sent_nif).first()
+
+        if site_profile:
+            saved_nif = site_profile.nif
+
+            if saved_nif is not None and self.pk != site_profile.pk:
+                error_messages['nif'] = 'NIF already set to another profile.'
+
         if not validate_nif(self.nif):
             error_messages['nif'] = 'Enter a valid NIF.'
 
-        if re.search(r'^\\d{4}[- ]{0,1}\\d{3}$', self.postal_code) or \
-                len(self.postal_code) != 8:
+        if re.search(r'^\\d{4}[- ]{0,1}\\d{3}$', self.postal_code):
             error_messages['postal_code'] = 'Invalid postal code.'
 
         if error_messages:
