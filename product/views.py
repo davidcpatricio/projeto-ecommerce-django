@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views import View
@@ -16,6 +17,26 @@ class ProductList(ListView):
     context_object_name = 'products'
     paginate_by = 10
     ordering = ['-id']
+
+
+class Search(ProductList):
+    def get_queryset(self, *args, **kwargs):
+        term = self.request.GET.get('term') or self.request.session['term']
+        qs = super().get_queryset(*args, **kwargs)
+
+        if not term:
+            return qs
+
+        self.request.session['term'] = term
+
+        qs = qs.filter(
+            Q(name__icontains=term) |
+            Q(short_description__icontains=term) |
+            Q(long_description__icontains=term)
+        )
+
+        self.request.session.save()
+        return qs
 
 
 class ProductDetails(DetailView):
