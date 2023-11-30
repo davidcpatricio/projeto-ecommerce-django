@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
+{% block title %}
+{% if request.user.is_authenticated %}
+Update profile - {{ user }} | 
+{% else %}
+Create profile | 
+{% endif %}
+
+{% endblock title %}
+
 {% block content %}
 
 <div class="row">

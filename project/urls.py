@@ -20,9 +20,6 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    # TODO: Remover debug toolbar
-    path("__debug__/", include("debug_toolbar.urls")),
-
     path('', include('product.urls')),
     path('profile/', include('profiles.urls')),
     path('order/', include('order.urls')),
