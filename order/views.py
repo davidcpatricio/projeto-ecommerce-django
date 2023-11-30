@@ -125,10 +125,15 @@ class SaveOrder(View):
 
 
 class Details(DispatchLoginRequiredMixin, DetailView):
-    def get(self, *args, **kwargs):
-        return HttpResponse('Details')
+    model = Order
+    context_object_name = 'order'
+    template_name = 'order/details.html'
+    pk_url_kwarg = 'pk'
 
 
 class OrderList(DispatchLoginRequiredMixin, ListView):
-    def get(self, *args, **kwargs):
-        return HttpResponse('Order list')
+    model = Order
+    context_object_name = 'orders'
+    template_name = 'order/list.html'
+    paginate_by = 10
+    ordering = ['-id']
